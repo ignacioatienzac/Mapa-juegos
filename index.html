@@ -166,11 +166,12 @@
             <!-- 
                 PAÍSES / REGIONES
                 Cada 'path' tiene coordenadas para encajar con sus vecinos.
-                onclick llama a la función JS para simular entrar al nivel.
+                
+                **CAMBIO AQUÍ**: El Nivel 1 ahora lleva a 'mapas/pais-1.html'
             -->
 
-            <!-- Nivel 1: La Península Inicial -->
-            <g class="region" onclick="enterRegion(1, 'Bahía de las Vocales')">
+            <!-- Nivel 1: La Península Inicial (ACTIVO) -->
+            <g class="region" onclick="window.location.href='mapas/pais-1.html'">
                 <path class="land" d="M 50 600 L 200 650 L 250 500 L 150 450 L 50 500 Z" />
                 <text x="140" y="560" class="label">1</text>
             </g>
@@ -252,7 +253,7 @@
     </div>
 
     <script>
-        // Script simple para manejar la simulación de click
+        // Script simple para manejar la simulación de click (Solo para países 2-10)
         function enterRegion(id, name) {
             const modal = document.getElementById('modal-overlay');
             const title = document.getElementById('modal-title');
