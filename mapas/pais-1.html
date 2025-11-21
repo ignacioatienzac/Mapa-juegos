@@ -81,6 +81,8 @@
         .level-node {
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-box: fill-box;
+            transform-origin: center;
         }
 
         .level-circle {
@@ -209,16 +211,16 @@
             <!-- CONECTOR DE CAMINO (Dashed Line) -->
             <!-- Conecta las coordenadas de los 10 puntos -->
             <path class="path-connector" d="
-                M 70 520 
-                L 100 550 
-                L 80 590 
-                L 130 610 
-                L 180 620 
-                L 200 570 
-                L 220 520 
-                L 190 490 
-                L 150 470 
-                L 120 480
+                M 82 520
+                L 112 550
+                L 92 590
+                L 142 610
+                L 192 620
+                L 212 570
+                L 232 520
+                L 202 490
+                L 162 470
+                L 132 480
             " />
 
             <!-- 
@@ -227,63 +229,63 @@
             -->
 
             <!-- Nivel 1: Completado -->
+            <text x="70" y="520" class="level-number">1</text>
             <g class="level-node completed" onclick="selectLevel(1, 'Inicio del Viaje', 'completed')">
-                <circle cx="70" cy="520" class="level-circle" />
-                <text x="70" y="520" class="level-number">1</text>
+                <circle cx="82" cy="520" class="level-circle" />
             </g>
 
             <!-- Nivel 2: Completado -->
+            <text x="100" y="550" class="level-number">2</text>
             <g class="level-node completed" onclick="selectLevel(2, 'El Sendero Bajo', 'completed')">
-                <circle cx="100" cy="550" class="level-circle" />
-                <text x="100" y="550" class="level-number">2</text>
+                <circle cx="112" cy="550" class="level-circle" />
             </g>
 
             <!-- Nivel 3: Actual (Jugando ahora) -->
+            <text x="80" y="590" class="level-number">3</text>
             <g class="level-node current" onclick="selectLevel(3, 'Cruce de Vientos', 'current')">
-                <circle cx="80" cy="590" class="level-circle" />
-                <text x="80" y="590" class="level-number">3</text>
+                <circle cx="92" cy="590" class="level-circle" />
             </g>
 
             <!-- Nivel 4: Bloqueado -->
+            <text x="130" y="610" class="level-number">4</text>
             <g class="level-node locked" onclick="selectLevel(4, 'Cueva Oscura', 'locked')">
-                <circle cx="130" cy="610" class="level-circle" />
-                <text x="130" y="610" class="level-number">4</text>
+                <circle cx="142" cy="610" class="level-circle" />
             </g>
 
             <!-- Nivel 5 -->
+            <text x="180" y="620" class="level-number">5</text>
             <g class="level-node locked" onclick="selectLevel(5, 'Mirador Sur', 'locked')">
-                <circle cx="180" cy="620" class="level-circle" />
-                <text x="180" y="620" class="level-number">5</text>
+                <circle cx="192" cy="620" class="level-circle" />
             </g>
 
             <!-- Nivel 6 -->
+            <text x="200" y="570" class="level-number">6</text>
             <g class="level-node locked" onclick="selectLevel(6, 'El Puente', 'locked')">
-                <circle cx="200" cy="570" class="level-circle" />
-                <text x="200" y="570" class="level-number">6</text>
+                <circle cx="212" cy="570" class="level-circle" />
             </g>
 
             <!-- Nivel 7 -->
+            <text x="220" y="520" class="level-number">7</text>
             <g class="level-node locked" onclick="selectLevel(7, 'Paso Estrecho', 'locked')">
-                <circle cx="220" cy="520" class="level-circle" />
-                <text x="220" y="520" class="level-number">7</text>
+                <circle cx="232" cy="520" class="level-circle" />
             </g>
 
             <!-- Nivel 8 -->
+            <text x="190" y="490" class="level-number">8</text>
             <g class="level-node locked" onclick="selectLevel(8, 'Lago Escondido', 'locked')">
-                <circle cx="190" cy="490" class="level-circle" />
-                <text x="190" y="490" class="level-number">8</text>
+                <circle cx="202" cy="490" class="level-circle" />
             </g>
 
             <!-- Nivel 9 -->
+            <text x="150" y="470" class="level-number">9</text>
             <g class="level-node locked" onclick="selectLevel(9, 'Ante la Puerta', 'locked')">
-                <circle cx="150" cy="470" class="level-circle" />
-                <text x="150" y="470" class="level-number">9</text>
+                <circle cx="162" cy="470" class="level-circle" />
             </g>
 
             <!-- Nivel 10: JEFE -->
+            <text x="120" y="480" class="level-number">10</text>
             <g class="level-node locked boss" onclick="selectLevel(10, 'GUARDIÁN DE LA BAHÍA', 'locked')">
-                <circle cx="120" cy="480" class="level-circle" />
-                <text x="120" y="480" class="level-number">10</text>
+                <circle cx="132" cy="480" class="level-circle" />
             </g>
 
         </svg>
