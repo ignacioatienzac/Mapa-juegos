@@ -202,6 +202,15 @@
             svg {
                 height: 100%;
                 object-fit: contain;
+                transform: rotate(90deg);
+                transform-origin: center;
+            }
+
+            /* Mantiene los números en orientación natural al rotar el mapa */
+            .label {
+                transform: rotate(-90deg);
+                transform-box: fill-box;
+                transform-origin: center;
             }
 
             /* Mantiene los elementos flotantes legibles en el nuevo layout */
