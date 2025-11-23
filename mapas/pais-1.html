@@ -228,6 +228,10 @@
         }
         .btn-play:hover { background: #219150; }
 
+        .hero-character {
+            transition: transform 0.3s ease;
+        }
+
     </style>
 </head>
 <body>
@@ -358,6 +362,16 @@
             <g class="level-node locked boss" onclick="selectLevel(10, 'GUARDIÁN DE LA BAHÍA', 'locked')">
                 <circle cx="132" cy="480" r="10" class="level-circle" />
             </g>
+
+            <image
+                id="hero-character"
+                class="hero-character"
+                href="../personajes/protagonista-1.png"
+                x="82"
+                y="580"
+                width="20"
+                height="20"
+            />
 
         </svg>
 
