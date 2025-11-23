@@ -232,6 +232,11 @@
             transition: transform 0.3s ease;
         }
 
+        .hero-token {
+            transition: x 1s ease-in-out, y 1s ease-in-out;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
@@ -365,7 +370,7 @@
 
             <image
                 id="hero-character"
-                class="hero-character"
+                class="hero-character hero-token"
                 href="../personajes/protagonista-1.png"
                 x="82"
                 y="580"
