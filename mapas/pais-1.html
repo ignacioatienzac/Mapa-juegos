@@ -310,66 +310,66 @@
 
             <!-- Nivel 1: Completado -->
             <text x="82" y="510" class="level-number">1</text>
-            <g class="level-node completed" onclick="selectLevel(1, 'Inicio del Viaje', 'completed')">
+            <g class="level-node completed" data-level="1" onclick="selectLevel(1, 'Inicio del Viaje')">
                 <circle cx="82" cy="520" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 2: Completado -->
             <text x="112" y="540" class="level-number">2</text>
-            <g class="level-node completed" onclick="selectLevel(2, 'El Sendero Bajo', 'completed')">
+            <g class="level-node completed" data-level="2" onclick="selectLevel(2, 'El Sendero Bajo')">
                 <circle cx="112" cy="550" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 3: Actual (Jugando ahora) -->
             <text x="92" y="580" class="level-number">3</text>
-            <g class="level-node current" onclick="selectLevel(3, 'Cruce de Vientos', 'current')">
+            <g class="level-node current" data-level="3" onclick="selectLevel(3, 'Cruce de Vientos')">
                 <circle cx="92" cy="590" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 4: Bloqueado -->
             <text x="142" y="600" class="level-number">4</text>
-            <g class="level-node locked" onclick="selectLevel(4, 'Cueva Oscura', 'locked')">
+            <g class="level-node locked" data-level="4" onclick="selectLevel(4, 'Cueva Oscura')">
                 <circle cx="142" cy="610" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 5 -->
             <text x="192" y="610" class="level-number">5</text>
-            <g class="level-node locked" onclick="selectLevel(5, 'Mirador Sur', 'locked')">
+            <g class="level-node locked" data-level="5" onclick="selectLevel(5, 'Mirador Sur')">
                 <circle cx="192" cy="620" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 6 -->
             <text x="212" y="560" class="level-number">6</text>
-            <g class="level-node locked" onclick="selectLevel(6, 'El Puente', 'locked')">
+            <g class="level-node locked" data-level="6" onclick="selectLevel(6, 'El Puente')">
                 <circle cx="212" cy="570" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 7 -->
             <text x="232" y="510" class="level-number">7</text>
-            <g class="level-node locked" onclick="selectLevel(7, 'Paso Estrecho', 'locked')">
+            <g class="level-node locked" data-level="7" onclick="selectLevel(7, 'Paso Estrecho')">
                 <circle cx="232" cy="520" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 8 -->
             <text x="202" y="480" class="level-number">8</text>
-            <g class="level-node locked" onclick="selectLevel(8, 'Lago Escondido', 'locked')">
+            <g class="level-node locked" data-level="8" onclick="selectLevel(8, 'Lago Escondido')">
                 <circle cx="202" cy="490" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 9 -->
             <text x="162" y="460" class="level-number">9</text>
-            <g class="level-node locked" onclick="selectLevel(9, 'Ante la Puerta', 'locked')">
+            <g class="level-node locked" data-level="9" onclick="selectLevel(9, 'Ante la Puerta')">
                 <circle cx="162" cy="470" r="6" class="level-circle" />
             </g>
 
             <!-- Nivel 10: JEFE -->
             <text x="132" y="470" class="level-number">10</text>
-            <g class="level-node locked boss" onclick="selectLevel(10, 'GUARDIÁN DE LA BAHÍA', 'locked')">
+            <g class="level-node locked boss" data-level="10" onclick="selectLevel(10, 'GUARDIÁN DE LA BAHÍA')">
                 <circle cx="132" cy="480" r="10" class="level-circle" />
             </g>
 
             <image
-                id="hero-character"
+                id="hero-token"
                 class="hero-character hero-token"
                 href="../personajes/protagonista-1.png"
                 x="82"
@@ -393,28 +393,124 @@
     </div>
 
     <script>
+        const LEVEL_STORAGE_KEY = 'wordleQuestCurrentLevel';
         let currentSelectedLevel = null;
+
+        function getLevelNodeByNumber(number) {
+            return document.querySelector(`.level-node[data-level="${number}"]`);
+        }
+
+        function getLevelStatus(node) {
+            if (!node) return 'locked';
+            if (node.classList.contains('locked')) return 'locked';
+            if (node.classList.contains('completed')) return 'completed';
+            return 'current';
+        }
+
+        function getCurrentLevelNumber() {
+            const currentNode = document.querySelector('.level-node.current');
+            return currentNode ? Number(currentNode.dataset.level) : null;
+        }
+
+        function moveHeroToNode(node) {
+            if (!node) return;
+
+            const circle = node.querySelector('circle');
+            const hero = document.getElementById('hero-token');
+
+            if (!circle || !hero) return;
+
+            const cx = Number(circle.getAttribute('cx'));
+            const cy = Number(circle.getAttribute('cy'));
+            const offsetX = Number(hero.getAttribute('width')) / 2;
+            const offsetY = Number(hero.getAttribute('height')) / 2;
+
+            hero.setAttribute('x', cx - offsetX);
+            hero.setAttribute('y', cy - offsetY);
+        }
+
+        function persistLevelProgress(levelNumber) {
+            localStorage.setItem(LEVEL_STORAGE_KEY, String(levelNumber));
+        }
+
+        function applyLevelProgress(targetCurrentLevel) {
+            const nodes = Array.from(document.querySelectorAll('.level-node'));
+
+            nodes.forEach(node => {
+                const level = Number(node.dataset.level);
+                node.classList.remove('completed', 'current', 'locked');
+
+                if (level < targetCurrentLevel) {
+                    node.classList.add('completed');
+                } else if (level === targetCurrentLevel) {
+                    node.classList.add('current');
+                } else {
+                    node.classList.add('locked');
+                }
+            });
+
+            const currentNode = getLevelNodeByNumber(targetCurrentLevel);
+            moveHeroToNode(currentNode);
+            currentSelectedLevel = targetCurrentLevel;
+        }
+
+        function loadSavedProgress() {
+            const nodes = Array.from(document.querySelectorAll('.level-node'));
+            if (!nodes.length) return;
+
+            const savedLevel = Number(localStorage.getItem(LEVEL_STORAGE_KEY));
+            const defaultLevel = getCurrentLevelNumber() || 1;
+            const maxLevel = Math.max(...nodes.map(node => Number(node.dataset.level)));
+            const sanitizedLevel = Number.isNaN(savedLevel) || savedLevel < 1 ? defaultLevel : savedLevel;
+            const validatedLevel = Math.min(Math.max(sanitizedLevel, 1), maxLevel);
+
+            applyLevelProgress(validatedLevel);
+        }
+
+        function completeCurrentLevel() {
+            const currentNode = document.querySelector('.level-node.current');
+            if (!currentNode) return;
+
+            const currentLevel = Number(currentNode.dataset.level);
+            currentNode.classList.remove('current');
+            currentNode.classList.add('completed');
+
+            const nextLevelNumber = currentLevel + 1;
+            const nextNode = getLevelNodeByNumber(nextLevelNumber);
+
+            if (nextNode) {
+                nextNode.classList.remove('locked', 'completed');
+                nextNode.classList.add('current');
+                moveHeroToNode(nextNode);
+                persistLevelProgress(nextLevelNumber);
+                currentSelectedLevel = nextLevelNumber;
+            } else {
+                moveHeroToNode(currentNode);
+                persistLevelProgress(currentLevel);
+                currentSelectedLevel = currentLevel;
+            }
+        }
 
         function selectLevel(number, title, status) {
             const panel = document.getElementById('level-panel');
             const titleEl = document.getElementById('panel-title');
             const statusEl = document.getElementById('panel-status');
             const btn = document.getElementById('btn-action');
+            const node = getLevelNodeByNumber(number);
 
+            const resolvedStatus = status || getLevelStatus(node);
             currentSelectedLevel = number;
 
-            // Actualizar textos
             titleEl.innerText = `Nivel ${number}: ${title}`;
-            
-            // Lógica de estado visual
-            if (status === 'locked') {
+
+            if (resolvedStatus === 'locked') {
                 statusEl.innerText = "🔒 Este nivel está bloqueado.";
                 statusEl.style.color = "#e74c3c";
                 btn.style.background = "#95a5a6";
                 btn.innerText = "Bloqueado";
                 btn.disabled = true;
                 btn.style.cursor = "not-allowed";
-            } else if (status === 'completed') {
+            } else if (resolvedStatus === 'completed') {
                 statusEl.innerText = "✅ ¡Ya completado!";
                 statusEl.style.color = "#27ae60";
                 btn.style.background = "#2980b9";
@@ -430,14 +526,16 @@
                 btn.style.cursor = "pointer";
             }
 
-            // Mostrar panel
             panel.style.display = 'block';
         }
 
         function launchPuzzleFromPath(number, title, status) {
-            selectLevel(number, title, status);
+            const node = getLevelNodeByNumber(number);
+            const resolvedStatus = status || getLevelStatus(node);
 
-            if (status === 'locked') {
+            selectLevel(number, title, resolvedStatus);
+
+            if (resolvedStatus === 'locked') {
                 alert(`El nivel ${number} está bloqueado. Completa los anteriores para desbloquearlo.`);
                 return;
             }
@@ -446,12 +544,14 @@
         }
 
         function startPuzzle() {
-            if(currentSelectedLevel) {
+            if (currentSelectedLevel) {
                 // AQUÍ ES DONDE CONECTARÍAS CON TU JUEGO DE PUZLES
                 alert(`¡Cargando el puzle Wordle del Nivel ${currentSelectedLevel}!`);
                 // Ejemplo: window.location.href = 'puzzle.html?level=' + currentSelectedLevel;
             }
         }
+
+        document.addEventListener('DOMContentLoaded', loadSavedProgress);
     </script>
 </body>
 </html>
