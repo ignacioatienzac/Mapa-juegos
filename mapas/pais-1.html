@@ -391,7 +391,7 @@
             <image
                 id="hero-token"
                 class="hero-character hero-token"
-                href="../personajes/protagonista-1.png"
+                href="../personajes/Protagonista-1.png"
                 x="82"
                 y="580"
                 width="20"
@@ -446,9 +446,10 @@
             const cy = Number(circle.getAttribute('cy'));
             const offsetX = Number(hero.getAttribute('width')) / 2;
             const offsetY = Number(hero.getAttribute('height')) / 2;
+            const verticalLift = 10;
 
             hero.setAttribute('x', cx - offsetX);
-            hero.setAttribute('y', cy - offsetY);
+            hero.setAttribute('y', cy - offsetY - verticalLift);
         }
 
         function persistLevelProgress(levelNumber) {
