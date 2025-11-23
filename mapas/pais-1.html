@@ -95,6 +95,22 @@
             pointer-events: none;
         }
 
+        /* Elementos de escenario */
+        .tree-canopy {
+            fill: #62b36f;
+            stroke: #3f7c47;
+            stroke-width: 1px;
+        }
+        .tree-trunk {
+            fill: #8d6e63;
+        }
+        .lake {
+            fill: #5dade2;
+            stroke: #2980b9;
+            stroke-width: 1px;
+            opacity: 0.85;
+        }
+
         /* El camino */
         .path-connector {
             fill: none;
@@ -114,10 +130,11 @@
         }
 
         .level-circle {
-            fill: #ecf0f1;
-            stroke: #7f8c8d;
-            stroke-width: 1px;
-            r: 6; /* Radio del círculo */
+            fill: #ffd86b;
+            stroke: #c47a1c;
+            stroke-width: 2px;
+            r: 7; /* Radio del círculo */
+            filter: drop-shadow(0 2px 0 #8a4d0f) drop-shadow(0 3px 6px rgba(0,0,0,0.35));
         }
 
         .level-number {
@@ -133,16 +150,16 @@
         
         /* 1. Completado (Verde) */
         .level-node.completed .level-circle {
-            fill: #2ecc71;
-            stroke: #27ae60;
+            fill: #64e38a;
+            stroke: #1f7f43;
         }
         .level-node.completed .level-number { fill: white; }
 
         /* 2. Actual / Disponible (Amarillo pulsante) */
         .level-node.current .level-circle {
-            fill: #f1c40f;
-            stroke: #f39c12;
-            stroke-width: 2px;
+            fill: #ffef7a;
+            stroke: #f5a623;
+            stroke-width: 3px;
         }
         .level-node.current {
             animation: pulse 2s infinite;
@@ -154,14 +171,14 @@
             opacity: 0.7;
         }
         .level-node.locked .level-circle {
-            fill: #95a5a6;
+            fill: #d1d5d8;
             stroke: #7f8c8d;
         }
 
         /* 4. Jefe Final (Nivel 10) */
         .level-node.boss .level-circle {
-            r: 10; /* Más grande */
-            fill: #e74c3c;
+            r: 11; /* Más grande */
+            fill: #ff7f7f;
             stroke: #c0392b;
         }
         .level-node.boss .level-number { font-size: 9px; fill: white; }
@@ -242,6 +259,26 @@
             <path class="decoration" d="M 80 580 L 90 560 L 100 580 Z" />
             <path class="decoration" d="M 180 600 L 190 580 L 200 600 Z" />
             <path class="decoration" d="M 140 480 L 150 460 L 160 480 Z" />
+
+            <!-- Árboles y lagos simples -->
+            <g class="tree">
+                <rect class="tree-trunk" x="110" y="610" width="6" height="10" />
+                <circle class="tree-canopy" cx="113" cy="606" r="8" />
+                <circle class="tree-canopy" cx="118" cy="608" r="7" />
+            </g>
+            <g class="tree">
+                <rect class="tree-trunk" x="205" y="545" width="6" height="10" />
+                <circle class="tree-canopy" cx="208" cy="541" r="8" />
+                <circle class="tree-canopy" cx="213" cy="543" r="7" />
+            </g>
+            <g class="tree">
+                <rect class="tree-trunk" x="155" y="520" width="6" height="9" />
+                <circle class="tree-canopy" cx="158" cy="516" r="7" />
+                <circle class="tree-canopy" cx="163" cy="518" r="6" />
+            </g>
+
+            <ellipse class="lake" cx="95" cy="500" rx="12" ry="7" />
+            <ellipse class="lake" cx="215" cy="610" rx="16" ry="9" />
 
             <!-- CONECTOR DE CAMINO (Dashed Line) -->
             <!-- Conecta las coordenadas de los 10 puntos -->
